@@ -45,12 +45,12 @@ function validateEmployee(employee) {
 
 /* Verify that the name is a string consisting of english letters only */
 function validateName(name) {
-  return (typeof name === "string") && name.match(/[A-Za-z]+/);
+  return (typeof name === "string") && /^[A-Za-z]+$/.test(name);
 }
 
 /* Verify that the date is a string in the form of YYYY-MM-DD */
 function validateDate(date) {
-  return (typeof date === "string") && date.match(/\d\d\d\d\-\d\d\-\d\d/);
+  return (typeof date === "string") && /^\d\d\d\d\-\d\d\-\d\d$/.test(date);
 }
 
 /* Verify that the role matches one of the proscribed strings */
@@ -59,7 +59,7 @@ function validateRole(role){
     return false;
   }
   let upperRole = role.toUpperCase();
-  return ROLES.some(r => upperRole === upperRole);
+  return ROLES.some(r => r === upperRole);
 }
 
 /* Add a new employee. */
