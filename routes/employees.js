@@ -1,3 +1,4 @@
+var moment = require('moment');
 var express = require('express');
 var router = express.Router();
 
@@ -5,6 +6,7 @@ const ROLES = ["CEO", "VP", "MANAGER", "LACKEY"];
 
 /* Generates a random number to use as an employee ID and converts it to a String */
 function generateID() {
+    // TODO use UUIDs or otherwise guarantee uniqueness
     let minId = 100000000
     let maxId = 999999999
     return Math.floor(Math.random() * (maxId - minId) + minId).toString(10);
@@ -23,9 +25,11 @@ function validateName(name) {
     return (typeof name === "string") && /^[A-Za-z]+$/.test(name);
 }
 
-/* Verify that the date is a string in the form of YYYY-MM-DD */
+/* Verify that the date is a string in the form of YYYY-MM-DD and before the current date */
 function validateDate(date) {
-    return (typeof date === "string") && /^\d\d\d\d\-\d\d\-\d\d$/.test(date);
+    let nowMoment = moment();
+    let dateMoment = moment(date, "YYYY-MM-DD")
+    return dateMoment.isValid() && dateMoment.isBefore(nowMoment);
 }
 
 /* Verify that the role matches one of the proscribed strings */
