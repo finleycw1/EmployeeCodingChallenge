@@ -22,3 +22,8 @@ https://expressjs.com/en/starter/installing.html
 == Assumptions
 . Body of the POST/PUT is a JSON object
 . Names are exclusively latin alphanumeric characters (no spaces,dashes, etc.)
+
+== Misc
+
+Lot's of sites referenced for basic information, in particular:
+* https://developer.mozilla.org
