@@ -78,6 +78,7 @@
             let hdateCell = row.insertCell();
             hdateCell.innerHTML = `<input type="text" value=${employee.hdate}>`;
             let roleCell = row.insertCell();
+            // TODO make this a select like the new employee (It wasn't obvious how to set a default option from here)
             roleCell.innerHTML = `<input type="text" value=${employee.role}>`;
             let idCell = row.insertCell();
             idCell.innerText = employee.id;
