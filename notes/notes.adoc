@@ -11,3 +11,14 @@ I've used Heroku to deploy apps before, and they have decent tutorials - I'll st
 Which version of node do I want? Looks like consensus is take the latest "LTS" version, which is currently 14.x, but 16.x will be ready for primetime in October.
 https://nodejs.org/en/about/releases/
 
+== Starter Code
+
+Used ExpressJS Getting Started guide to boostrap an app:
+https://expressjs.com/en/starter/installing.html
+
+== Potential Improvements
+. Add unit tests of some kind
+
+== Assumptions
+. Body of the POST/PUT is a JSON object
+. Names are exclusively latin alphanumeric characters (no spaces,dashes, etc.)
