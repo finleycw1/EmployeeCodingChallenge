@@ -4,7 +4,7 @@ A simple CRUD app written in nodejs.
 
 == Running the app
 
-Start the app with `node bin/www` (after `npm install`). Navigate to http://localhost:3000.
+Start the app with `node bin/www` (after `npm install`) or `npm start`. Navigate to http://localhost:3000.
 
 == Deployment
 
@@ -43,14 +43,20 @@ Removing PUG to simplify process of writing dynamic front-end.
 === Known issues
 . Redundant GET calls are made when updating the table (should only call once after all the PUTs)
 .. There may also be some kind of race condition here - sometimes the table doesn't seem to update properly after a delete
+. Throughout the code, I've left comments and "TODO" messages indicated potentially unresolved issues
+or where additional polish would be desirable.
 
 === Potential Improvements
 . Add unit tests of some kind
 . Add client side validations
 . Add some CSS
 
-=== Misc
-
+=== References
 Many sites referenced for basic information & syntax, in particular:
-* https://developer.mozilla.org
-* https://stackoverflow.com/ (of course)
+
+. https://developer.mozilla.org
+. https://stackoverflow.com/ (of course)
+
+=== Final thoughts
+. I enjoyed experimenting with JS.
+It would be good to take a class to get some formal training/learn some good practices, especially on the front-end.
