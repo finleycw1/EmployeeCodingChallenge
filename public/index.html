@@ -80,7 +80,7 @@
             let roleCell = row.insertCell();
             roleCell.innerHTML = `<input type="text" value=${employee.role}>`;
             let idCell = row.insertCell();
-            idCell.innerHTML = `<input type="text" value=${employee.id}>`;
+            idCell.innerText = employee.id;
             let deleteCell = row.insertCell();
             deleteCell.innerHTML = `<button onclick="deleteButtonClicked(${employee.id})">Delete</button>`;
         });
