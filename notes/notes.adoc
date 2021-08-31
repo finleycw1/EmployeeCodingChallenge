@@ -1,0 +1,13 @@
+= Employee App
+
+== Picking a Framework
+
+Quick search for node REST frameworks indicates that Express is still popular. I've meddled with that before so it seems like a reasonable choice.
+
+I've used Heroku to deploy apps before, and they have decent tutorials - I'll start with their template. That will have a nice side effect of making the app easy to share.
+
+== Environment Setup
+
+Which version of node do I want? Looks like consensus is take the latest "LTS" version, which is currently 14.x, but 16.x will be ready for primetime in October.
+https://nodejs.org/en/about/releases/
+
