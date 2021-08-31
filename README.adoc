@@ -40,6 +40,10 @@ https://expressjs.com/en/starter/installing.html
 This could be neat, but the spec implies that we should be updating the table client-side using REST calls.
 Removing PUG to simplify process of writing dynamic front-end.
 
+=== Known issues
+. Redundant GET calls are made when updating the table (should only call once after all the PUTs)
+.. There may also be some kind of race condition here - sometimes the table doesn't seem to update properly after a delete
+
 === Potential Improvements
 . Add unit tests of some kind
 . Add client side validations
