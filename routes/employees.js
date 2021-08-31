@@ -26,12 +26,38 @@ var employees = [
   }
 ];
 
-/* GET employee listing. */
+function generateID() {
+  let minId = 100000000
+  let maxId = 999999999
+  return Math.floor(Math.random() * (maxId - minId) + minId).toString(10);
+}
+
+/* Add a new employee. */
+router.post('/', function(req, res, next) {
+  let employee = req.body;
+  // Generate a random ID (overwrite if already present)
+  employee.id = generateID();
+  // TODO validate input
+  employees.push(employee);
+  res.send(employee);
+});
+
+/* Add or replace an employee. */
+router.put('/', function(req, res, next) {
+  let employee = req.body;
+  // TODO validate input
+  // Remove existing employee, if applicable
+  employees = employees.filter(e => e.id !== employee.id);
+  employees.push(employee);
+  res.send(employee);
+});
+
+/* Get an employee listing. */
 router.get('/', function(req, res, next) {
   res.send(employees);
 });
 
-/* GET specific employee. */
+/* Get a specific employee. */
 router.get(/^\/(\d+)$/, function(req, res, next) {
   let id = req.params[0];
   let employee = employees.find(employee => employee.id === id);
@@ -41,7 +67,7 @@ router.get(/^\/(\d+)$/, function(req, res, next) {
   res.send(employee);
 });
 
-/* DELETE specific employee. */
+/* Delete specific employee. */
 router.delete(/^\/(\d+)$/, function(req, res, next) {
   let id = req.params[0];
   employees = employees.filter(employee => employee.id !== id);
