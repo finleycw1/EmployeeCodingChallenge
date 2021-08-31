@@ -27,6 +27,13 @@ function validateName(name) {
 
 /* Verify that the date is a string in the form of YYYY-MM-DD and before the current date */
 function validateDate(date) {
+
+    // Check for the correct format
+    if ((typeof date !== "string") || !/^\d\d\d\d\-\d\d\-\d\d$/.test(date)) {
+        return false;
+    }
+
+    // Make sure the date is in the past
     let nowMoment = moment();
     let dateMoment = moment(date, "YYYY-MM-DD")
     return dateMoment.isValid() && dateMoment.isBefore(nowMoment);
