@@ -1,5 +1,15 @@
 = Employee App
 
+A simple CRUD app written in nodejs.
+
+== Running the app
+
+Start the app with `node bin/www` (after `npm install). Navigate to 'http://localhost:3000'.
+
+== Deployment
+
+Deployed to https://boiling-lake-47544.herokuapp.com/ (for now.)
+
 == Developer Notes
 
 === Assumptions
@@ -30,9 +40,13 @@ https://expressjs.com/en/starter/installing.html
 This could be neat, but the spec implies that we should be updating the table client-side using REST calls.
 Removing PUG to simplify process of writing dynamic front-end.
 
+=== Known issues
+. Redundant GET calls are made when updating the table (should only call once after all the PUTs)
+
 === Potential Improvements
 . Add unit tests of some kind
 . Add client side validations
+. Add some CSS
 
 === Misc
 
