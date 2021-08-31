@@ -58,9 +58,12 @@
     <button id="newRecordButton" type="button">New Record</button>
 </form>
 
+<p id="errorMessages" style="color:red">
+
 </body>
 <script>
     const employeeTable = document.getElementById("employeeTableBody");
+    const errorMessages = document.getElementById("errorMessages");
 
     const submitChangesButton = document.getElementById("submitChangesButton");
     const newRecordButton = document.getElementById("newRecordButton");
@@ -92,7 +95,16 @@
             method: 'GET',
             headers: {'Accept': 'application/json'}
         })
-            .then(response => response.json())
+            .then(response => {
+                if (response.ok) {
+                    errorMessages.innerText = "";
+                    let employees = response.json();
+                    return employees;
+                }
+                else {
+                    errorMessages.innerText = response.statusText;
+                }
+            })
             .then(employees => populateEmployeeTable(employees));
     }
 
@@ -100,9 +112,15 @@
         fetch(`/api/employees/${employeeId}`, {
             method: 'DELETE'
         })
-            .then(_ => updateEmployeeTable())
-            // TODO verify success
-            .catch(e => console.log(e));
+            .then(response => {
+                if (response.ok) {
+                    errorMessages.innerText = "";
+                    updateEmployeeTable()
+                }
+                else {
+                    errorMessages.innerText = response.statusText;
+                }
+            });
     }
 
     function submitButtonClicked() {
@@ -112,7 +130,7 @@
             lname = cells[1].firstChild.value;
             hdate = cells[2].firstChild.value;
             role = cells[3].firstChild.value;
-            id = cells[4].firstChild.value;
+            id = cells[4].innerText;
             // TODO validate inputs client-side
 
             let employee = {
@@ -121,17 +139,22 @@
                 "hdate": hdate,
                 "role": role,
                 "id": id
-            }
+            };
 
             fetch(`/api/employees/${id}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(employee)
             })
-                .then(_ => updateEmployeeTable())
-                // TODO verify success on all PUTs
-                // TODO wait for all PUTs before updating table
-                .catch(e => console.log(e));
+                .then(response => {
+                    if (response.ok) {
+                        errorMessages.innerText = "";
+                        updateEmployeeTable()
+                    }
+                    else {
+                        errorMessages.innerText = response.statusText;
+                    }
+                });
         }
     }
 
@@ -151,23 +174,26 @@
             "lname": newEmployeeLastName.value,
             "hdate": newEmployeeHireDate.value,
             "role": newEmployeeRole.value,
-        }
+        };
 
         fetch(`/api/employees`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(employee)
         })
-            .then(_ => {
-                // What is better, a block in a single then, or several thens?
-                updateEmployeeTable();
-                // Clear new employee form
-                newEmployeeFirstName.value = "";
-                newEmployeeLastName.value = "";
-                newEmployeeHireDate.value = "";
-            })
-            // TODO verify success
-            .catch(e => console.log(e));
+            .then(response => {
+                if (response.ok) {
+                    errorMessages.innerText = "";
+                    updateEmployeeTable();
+                    // Clear new employee form
+                    newEmployeeFirstName.value = "";
+                    newEmployeeLastName.value = "";
+                    newEmployeeHireDate.value = "";
+                }
+                else {
+                    errorMessages.innerText = response.statusText;
+                }
+            });
     }
 
     newRecordButton.addEventListener("click", newRecordButtonClicked);
