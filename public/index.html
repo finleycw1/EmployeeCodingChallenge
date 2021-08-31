@@ -22,14 +22,18 @@ table, th, td {
   </thead>
   <tbody id="employeeTableBody"></tbody>
 </table>
-<button>Submit Changes</button>
+<button id="submitChangesButton" type="button">Submit Changes</button>
 <button>New Record</button>
 </form>
 
 </body>
 <script>
+  const employeeTable = document.getElementById("employeeTableBody");
+  const submitChangesButton= document.getElementById("submitChangesButton");
+
   function populateEmployeeTable(employeeList) {
-    let employeeTable = document.getElementById("employeeTableBody");
+
+    employeeTable.innerHTML = '';
 
     employeeList.forEach(employee => {
       let row = employeeTable.insertRow();
@@ -49,10 +53,42 @@ table, th, td {
   }
 
   function updateEmployeeTable() {
-    fetch('/api/employees')
+    fetch('/api/employees', {method:'GET', headers: {'Accept': 'application/json'}})
             .then(response => response.json())
             .then(employees => populateEmployeeTable(employees));
   }
+
+  function submitButtonClicked() {
+    for (let row of employeeTable.rows) {
+      cells = row.cells;
+      fname = cells[0].firstChild.value;
+      lname = cells[1].firstChild.value;
+      hdate = cells[2].firstChild.value;
+      role = cells[3].firstChild.value;
+      id = cells[4].firstChild.value;
+
+      // TODO validate inputs
+
+      let employee = {
+        "fname": fname,
+        "lname": lname,
+        "hdate": hdate,
+        "role": role,
+        "id": id
+      }
+
+      fetch(`/api/employees/${id}`, {
+        method:'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(employee)})
+              .then(response => updateEmployeeTable())
+              // TODO verify success on all PUTs
+              // TODO wait for all PUTs before updating table
+              .catch(e => console.log(e));
+    }
+  }
+
+  submitChangesButton.addEventListener("click", submitButtonClicked);
 
   updateEmployeeTable();
 
