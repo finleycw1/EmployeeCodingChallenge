@@ -4,7 +4,7 @@ A simple CRUD app written in nodejs.
 
 == Running the app
 
-Start the app with `node bin/www` (after `npm install). Navigate to 'http://localhost:3000'.
+Start the app with `node bin/www` (after `npm install`). Navigate to http://localhost:3000.
 
 == Deployment
 
@@ -42,6 +42,7 @@ Removing PUG to simplify process of writing dynamic front-end.
 
 === Known issues
 . Redundant GET calls are made when updating the table (should only call once after all the PUTs)
+.. There may also be some kind of race condition here - sometimes the table doesn't seem to update properly after a delete
 
 === Potential Improvements
 . Add unit tests of some kind
