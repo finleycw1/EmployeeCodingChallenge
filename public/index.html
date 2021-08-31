@@ -23,22 +23,44 @@ table, th, td {
   <tbody id="employeeTableBody"></tbody>
 </table>
 <button id="submitChangesButton" type="button">Submit Changes</button>
-<button>New Record</button>
+</form>
+
+<form>
+  <h2>Add New Employee</h2>
+  <table style="width:100%">
+    <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Hire Date</th>
+      <th>Role</th>
+    </tr>
+    <tr>
+      <td><input id="newEmployeeFirstName" type="text" value=""></td>
+      <td><input id="newEmployeeLastName" type="text" value=""></td>
+      <!-- TODO Use a date-picker -->
+      <td><input id="newEmployeeHireDate" type="text" value=""></td>
+      <td>
+        <select name="role" id="newEmployeeRole">
+          <option value="ceo">CEO</option>
+          <option value="vp">VP</option>
+          <option value="manager">Manager</option>
+          <option value="lackey">Lackey</option>
+        </select>
+      </td>
+    </tr>
+    </thead>
+    <tbody id="newRecordTableBody"></tbody>
+  </table>
+  <button id="newRecordButton" type="button">New Record</button>
 </form>
 
 </body>
 <script>
   const employeeTable = document.getElementById("employeeTableBody");
-  const submitChangesButton= document.getElementById("submitChangesButton");
 
-  function deleteButtonClicked(employeeId) {
-    fetch(`/api/employees/${employeeId}`, {
-      method:'DELETE'
-    })
-            .then(_ => updateEmployeeTable())
-            // TODO verify success
-            .catch(e => console.log(e));
-  }
+  const submitChangesButton= document.getElementById("submitChangesButton");
+  const newRecordButton = document.getElementById("newRecordButton");
 
   function populateEmployeeTable(employeeList) {
 
@@ -69,6 +91,15 @@ table, th, td {
             .then(employees => populateEmployeeTable(employees));
   }
 
+  function deleteButtonClicked(employeeId) {
+    fetch(`/api/employees/${employeeId}`, {
+      method:'DELETE'
+    })
+            .then(_ => updateEmployeeTable())
+            // TODO verify success
+            .catch(e => console.log(e));
+  }
+
   function submitButtonClicked() {
     for (let row of employeeTable.rows) {
       cells = row.cells;
@@ -77,8 +108,7 @@ table, th, td {
       hdate = cells[2].firstChild.value;
       role = cells[3].firstChild.value;
       id = cells[4].firstChild.value;
-
-      // TODO validate inputs
+      // TODO validate inputs client-side
 
       let employee = {
         "fname": fname,
@@ -101,6 +131,41 @@ table, th, td {
 
   submitChangesButton.addEventListener("click", submitButtonClicked);
 
+  function newRecordButtonClicked() {
+
+    const newEmployeeFirstName = document.getElementById("newEmployeeFirstName");
+    const newEmployeeLastName = document.getElementById("newEmployeeLastName");
+    const newEmployeeHireDate = document.getElementById("newEmployeeHireDate");
+    const newEmployeeRole = document.getElementById("newEmployeeRole");
+
+    // TODO validate inputs client-side
+
+    let employee = {
+      "fname": newEmployeeFirstName.value,
+      "lname": newEmployeeLastName.value,
+      "hdate": newEmployeeHireDate.value,
+      "role": newEmployeeRole.value,
+    }
+
+    fetch(`/api/employees`, {
+      method:'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(employee)})
+            .then(_ => {
+              // What is better, a block in a single then, or several thens?
+              updateEmployeeTable();
+              // Clear new employee form
+              newEmployeeFirstName.value = "";
+              newEmployeeLastName.value = "";
+              newEmployeeHireDate.value = "";
+            })
+            // TODO verify success
+            .catch(e => console.log(e));
+  }
+
+  newRecordButton.addEventListener("click", newRecordButtonClicked);
+
+  // Initial population of table
   updateEmployeeTable();
 
 </script>
