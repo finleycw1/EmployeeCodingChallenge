@@ -43,6 +43,7 @@ router.post('/', function(req, res, next) {
 
   if (!validateEmployee(employee)) {
     res.status(400).send("Invalid employee record.")
+    return;
     // TODO return a more specific error message
   }
 
@@ -63,6 +64,7 @@ router.put(/^\/(\d+)$/, function(req, res, next) {
   if (!validateEmployee(employee)) {
     res.status(400).send("Invalid employee record.")
     // TODO return a more specific error message
+    return;
   }
 
   // Remove existing employee, if applicable
@@ -83,6 +85,7 @@ router.get(/^\/(\d+)$/, function(req, res, next) {
   let employee = req.app.locals.employees.find(employee => employee.id === id);
   if (undefined === employee) {
     res.sendStatus(404);
+    return;
   }
   res.send(employee);
 });
