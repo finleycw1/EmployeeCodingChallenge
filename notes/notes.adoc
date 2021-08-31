@@ -1,29 +1,41 @@
 = Employee App
 
-== Picking a Framework
+== Developer Notes
+
+=== Assumptions
+. Body of the POST/PUT is a JSON object
+. Names are exclusively latin alphanumeric characters (no spaces,dashes, etc.)
+. Delete buttons should be implemented to remove employees (present in template but not mentioned in spec)
+. Update button should be implemented to update existing employees (present in template but not mentioned in spec)
+. Exhaustive error handling, client-side validation, and tests are outside the scope of this challenge
+
+=== Picking a Framework
 
 Quick search for node REST frameworks indicates that Express is still popular. I've meddled with that before so it seems like a reasonable choice.
 
 I've used Heroku to deploy apps before, and they have decent tutorials - I'll start with their template. That will have a nice side effect of making the app easy to share.
 
-== Environment Setup
+=== Environment Setup
 
 Which version of node do I want? Looks like consensus is take the latest "LTS" version, which is currently 14.x, but 16.x will be ready for primetime in October.
 https://nodejs.org/en/about/releases/
 
-== Starter Code
+=== Starter Code
 
 Used ExpressJS Getting Started guide to boostrap an app:
 https://expressjs.com/en/starter/installing.html
 
-== Potential Improvements
+=== PUG Template Engine
+
+This could be neat, but the spec implies that we should be updating the table client-side using REST calls.
+Removing PUG to simplify process of writing dynamic front-end.
+
+=== Potential Improvements
 . Add unit tests of some kind
+. Add client side validations
 
-== Assumptions
-. Body of the POST/PUT is a JSON object
-. Names are exclusively latin alphanumeric characters (no spaces,dashes, etc.)
+=== Misc
 
-== Misc
-
-Lot's of sites referenced for basic information, in particular:
+Many sites referenced for basic information & syntax, in particular:
 * https://developer.mozilla.org
+* https://stackoverflow.com/ (of course)
