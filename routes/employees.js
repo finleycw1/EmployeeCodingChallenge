@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+const ROLES = ["CEO", "VP", "MANAGER", "LACKEY"];
+
 // Populate employee list with names from example
 var employees = [
   {
@@ -26,28 +28,71 @@ var employees = [
   }
 ];
 
+/* Generates a random number to use as an employee ID and converts it to a String */
 function generateID() {
   let minId = 100000000
   let maxId = 999999999
   return Math.floor(Math.random() * (maxId - minId) + minId).toString(10);
 }
 
+/* Validates that all of the fields in an employee object are sane */
+function validateEmployee(employee) {
+  return validateName(employee.fname) &&
+      validateName(employee.lname) &&
+      validateDate(employee.hdate) &&
+      validateRole(employee.role)
+}
+
+/* Verify that the name is a string consisting of english letters only */
+function validateName(name) {
+  return (typeof name === "string") && name.match(/[A-Za-z]+/);
+}
+
+/* Verify that the date is a string in the form of YYYY-MM-DD */
+function validateDate(date) {
+  return (typeof date === "string") && date.match(/\d\d\d\d\-\d\d\-\d\d/);
+}
+
+/* Verify that the role matches one of the proscribed strings */
+function validateRole(role){
+  if (typeof  role !== "string"){
+    return false;
+  }
+  let upperRole = role.toUpperCase();
+  return ROLES.some(r => upperRole === upperRole);
+}
+
 /* Add a new employee. */
 router.post('/', function(req, res, next) {
   let employee = req.body;
+
+  if (!validateEmployee(employee)) {
+    res.status(400).send("Invalid employee record.")
+    // TODO return a more specific error message
+  }
+
   // Generate a random ID (overwrite if already present)
   employee.id = generateID();
-  // TODO validate input
+
   employees.push(employee);
   res.send(employee);
 });
 
 /* Add or replace an employee. */
-router.put('/', function(req, res, next) {
+router.put(/^\/(\d+)$/, function(req, res, next) {
+  let id = req.params[0];
+  // TODO Validate ID
+
   let employee = req.body;
-  // TODO validate input
+  employee.id = id;
+  if (!validateEmployee(employee)) {
+    res.status(400).send("Invalid employee record.")
+    // TODO return a more specific error message
+  }
+
   // Remove existing employee, if applicable
-  employees = employees.filter(e => e.id !== employee.id);
+  employees = employees.filter(e => e.id !== id);
+
   employees.push(employee);
   res.send(employee);
 });
@@ -71,6 +116,7 @@ router.get(/^\/(\d+)$/, function(req, res, next) {
 router.delete(/^\/(\d+)$/, function(req, res, next) {
   let id = req.params[0];
   employees = employees.filter(employee => employee.id !== id);
+  res.send();
 });
 
 module.exports = router;
