@@ -31,6 +31,15 @@ table, th, td {
   const employeeTable = document.getElementById("employeeTableBody");
   const submitChangesButton= document.getElementById("submitChangesButton");
 
+  function deleteButtonClicked(employeeId) {
+    fetch(`/api/employees/${employeeId}`, {
+      method:'DELETE'
+    })
+            .then(_ => updateEmployeeTable())
+            // TODO verify success
+            .catch(e => console.log(e));
+  }
+
   function populateEmployeeTable(employeeList) {
 
     employeeTable.innerHTML = '';
@@ -48,12 +57,14 @@ table, th, td {
       let idCell = row.insertCell();
       idCell.innerHTML = `<input type="text" value=${employee.id}>`;
       let deleteCell = row.insertCell();
-      deleteCell.innerHTML = '<button>Delete</button>';
+      deleteCell.innerHTML = `<button onclick="deleteButtonClicked(${employee.id})">Delete</button>`;
     });
   }
 
   function updateEmployeeTable() {
-    fetch('/api/employees', {method:'GET', headers: {'Accept': 'application/json'}})
+    fetch('/api/employees', {
+      method:'GET',
+      headers: {'Accept': 'application/json'}})
             .then(response => response.json())
             .then(employees => populateEmployeeTable(employees));
   }
@@ -81,7 +92,7 @@ table, th, td {
         method:'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(employee)})
-              .then(response => updateEmployeeTable())
+              .then(_ => updateEmployeeTable())
               // TODO verify success on all PUTs
               // TODO wait for all PUTs before updating table
               .catch(e => console.log(e));
