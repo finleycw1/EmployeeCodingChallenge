@@ -1,7 +1,7 @@
 import {useState} from "react";
 import axios from "axios";
 
-function NewEmployeeForm() {
+function NewEmployeeForm(props) {
 
     const [employee, setEmployee] = useState({fname: '', lname: '', hdate: '', role: ''});
 
@@ -9,7 +9,11 @@ function NewEmployeeForm() {
         event.preventDefault();
         console.log(employee);
         axios.post('api/employees', employee)
-            .then(response => console.log(response))
+            .then(response => {
+                    console.log(response)
+                    props.onEmployeeAdded();
+                }
+            )
             .catch(error => console.log(error));
     }
 

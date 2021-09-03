@@ -9,19 +9,23 @@ import axios from "axios";
 function App() {
     const [employees, setEmployees] = useState([]);
 
-    // Populate the table
-    useEffect(() => {
+    const populateEmployeeTable = () => {
         axios.get('/api/employees').then(
             response => {
                 setEmployees(response.data);
             }
         );
+    };
+
+    // Populate the table
+    useEffect(() => {
+        populateEmployeeTable();
     }, []);
 
     return (
         <>
             <EmployeeTable employees={employees}/>
-            <NewEmployeeForm/>
+            <NewEmployeeForm onEmployeeAdded={populateEmployeeTable}/>
         </>
     );
 }
