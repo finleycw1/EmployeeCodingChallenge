@@ -60,3 +60,4 @@ Many sites referenced for basic information & syntax, in particular:
 === Final thoughts
 . I enjoyed experimenting with JS.
 It would be good to take a class to get some formal training/learn some good practices, especially on the front-end.
+. I started fiddling around with using React on the front end (see 'react' branch), but it is unfinished.
