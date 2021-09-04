@@ -9,7 +9,7 @@ import axios from "axios";
 function App() {
     const [employees, setEmployees] = useState([]);
 
-    const populateEmployeeTable = () => {
+    const reloadEmployeeTable = () => {
         axios.get('/api/employees').then(
             response => {
                 setEmployees(response.data);
@@ -19,13 +19,13 @@ function App() {
 
     // Populate the table
     useEffect(() => {
-        populateEmployeeTable();
+        reloadEmployeeTable();
     }, []);
 
     return (
         <>
-            <EmployeeTable employees={employees}/>
-            <NewEmployeeForm onEmployeeAdded={populateEmployeeTable}/>
+            <EmployeeTable employees={employees} handleEmployeeDeleted={reloadEmployeeTable} />
+            <NewEmployeeForm handleNewEmployeeAdded={reloadEmployeeTable}/>
         </>
     );
 }
