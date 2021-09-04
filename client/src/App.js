@@ -24,7 +24,7 @@ function App() {
 
     return (
         <>
-            <EmployeeTable employees={employees} handleEmployeeDeleted={reloadEmployeeTable} />
+            <EmployeeTable employees={employees} reloadTable={reloadEmployeeTable} />
             <NewEmployeeForm handleNewEmployeeAdded={reloadEmployeeTable}/>
         </>
     );

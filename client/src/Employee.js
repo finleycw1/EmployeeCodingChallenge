@@ -10,10 +10,10 @@ function Employee (props) {
         })
             .then(response => {
                 if (response.ok) {
-                    props.handleEmployeesModified()
+                    props.handleEmployeeDeleted();
                 }
                 else {
-                    console.log(response)
+                    console.log(response);
                 }
             });
     }
@@ -21,13 +21,29 @@ function Employee (props) {
     return (
         <tr>
             <td><input type="text" value={employee.fname}
-                       onChange={e => (setEmployee({...employee, fname: e.target.value}))}/></td>
+                       onChange={e => {
+                           const modifiedEmployee = {...employee, fname: e.target.value};
+                           (setEmployee(modifiedEmployee));
+                           props.handleEmployeeModified(modifiedEmployee);
+                       }}/></td>
             <td><input type="text" value={employee.lname}
-                       onChange={e => (setEmployee({...employee, fname: e.target.value}))}/></td>
+                       onChange={e => {
+                           const modifiedEmployee = {...employee, lname: e.target.value};
+                           (setEmployee(modifiedEmployee));
+                           props.handleEmployeeModified(modifiedEmployee);
+                       }}/></td>
             <td><input type="text" value={employee.hdate}
-                       onChange={e => (setEmployee({...employee, fname: e.target.value}))}/></td>
+                       onChange={e => {
+                           const modifiedEmployee = {...employee, hdate: e.target.value};
+                           (setEmployee(modifiedEmployee));
+                           props.handleEmployeeModified(modifiedEmployee);
+                       }}/></td>
             <td><input type="text" value={employee.role}
-                       onChange={e => (setEmployee({...employee, fname: e.target.value}))}/></td>
+                       onChange={e => {
+                           const modifiedEmployee = {...employee, role: e.target.value};
+                           (setEmployee(modifiedEmployee));
+                           props.handleEmployeeModified(modifiedEmployee);
+                       }}/></td>
             <td>{employee.id}</td>
             <td><button onClick={handleDelete}>Delete</button></td>
         </tr>

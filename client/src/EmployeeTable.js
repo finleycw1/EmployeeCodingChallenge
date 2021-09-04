@@ -1,6 +1,38 @@
 import Employee from "./Employee";
+import {useState} from "react";
 
 function EmployeeTable(props) {
+
+    const [modifiedEmployees, setModifiedEmployees] = useState({});
+
+    const handleEmployeeModified = (e) => {
+        modifiedEmployees[e.id] = e;
+        setModifiedEmployees(modifiedEmployees);
+    }
+
+    // PUT all modified employees
+    const handleSubmitButton = () => {
+        let requests = [];
+
+        for(let id in modifiedEmployees) {
+            const employee = modifiedEmployees[id];
+            requests = [...requests,
+                fetch(`/api/employees/${employee.id}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(employee)
+                })
+            ];
+        }
+
+        // Wait for all PUTs to complete, then print any error messages and update table
+        Promise.all(requests)
+            .then(values => {
+                values.filter(response => !response.ok).forEach(response => console.log(response.errorText));
+                props.reloadTable();
+            })
+    }
+
     return (
         <>
             <h2>Employees</h2>
@@ -17,10 +49,12 @@ function EmployeeTable(props) {
                     </thead>
                     <tbody>
                     {props.employees.map(e => <Employee key={e.id} employee={e}
-                                                        handleEmployeesModified={props.handleEmployeesModified}/>)}
+                                                        handleEmployeeDeleted={props.reloadTable}
+                                                        handleEmployeeModified={handleEmployeeModified}
+                    />)}
                     </tbody>
                 </table>
-                <button>Submit Changes</button>
+                <button onClick={handleSubmitButton}>Submit Changes</button>
             </form>
         </>
     )
