@@ -125,6 +125,9 @@
     }
 
     function submitButtonClicked() {
+
+        let requests = []
+
         for (let row of employeeTable.rows) {
             cells = row.cells;
             fname = cells[0].firstChild.value;
@@ -142,21 +145,22 @@
                 "id": id
             };
 
-            fetch(`/api/employees/${id}`, {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(employee)
-            })
-                .then(response => {
-                    if (response.ok) {
-                        errorMessages.innerText = "";
-                        updateEmployeeTable()
-                    }
-                    else {
-                        errorMessages.innerText = response.statusText;
-                    }
-                });
+            // TODO only PUT rows that have changed
+            requests = [...requests,
+                fetch(`/api/employees/${id}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(employee)
+                })
+            ];
         }
+
+        // Wait for all PUTs to complete, then print any error messages and update table
+        Promise.all(requests)
+            .then(values => {
+                values.filter(response => !response.ok).forEach(response => {errorMessages.innerText += response.error});
+                updateEmployeeTable();
+            })
     }
 
     submitChangesButton.addEventListener("click", submitButtonClicked);
