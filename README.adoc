@@ -4,7 +4,9 @@ A simple CRUD app written in nodejs.
 
 == Running the app
 
-Start the app with `node bin/www` (after `npm install`) or `npm start`. Navigate to http://localhost:3000.
+Start the app with `npm start`. Navigate to http://localhost:3000.
+
+For client-side dev, run `npm start` from the `client` folder.
 
 == Deployment
 
@@ -55,7 +57,13 @@ Many sites referenced for basic information & syntax, in particular:
 . https://developer.mozilla.org
 . https://stackoverflow.com/ (of course)
 
+React sources:
+
+. https://app.pluralsight.com/library/courses/react-js-getting-started/[React: Getting Started]
+** Introductory React course on Pluralsight
+. https://daveceddia.com/deploy-react-express-app-heroku[Deploy React and Express to Heroku]
+** Blog post describing how to integrate React into an existing Express app and deploy to Heroku
+
 === Final thoughts
 . I enjoyed experimenting with JS.
 It would be good to take a class to get some formal training/learn some good practices, especially on the front-end.
-. I started fiddling around with using React on the front end (see 'react' branch), but it is unfinished.
