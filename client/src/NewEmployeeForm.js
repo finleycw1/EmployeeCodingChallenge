@@ -1,5 +1,4 @@
 import {useState} from "react";
-import axios from "axios";
 
 function NewEmployeeForm(props) {
 
@@ -7,8 +6,11 @@ function NewEmployeeForm(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(employee);
-        axios.post('api/employees', employee)
+        fetch(`/api/employees`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(employee)
+        })
             .then(() => {
                     props.handleNewEmployeeAdded();
                     setEmployee({fname: '', lname: '', hdate: '', role: ''});

@@ -4,17 +4,25 @@ import EmployeeTable from './EmployeeTable';
 import NewEmployeeForm from "./NewEmployeeForm";
 
 import {useEffect, useState} from "react";
-import axios from "axios";
 
 function App() {
     const [employees, setEmployees] = useState([]);
 
     const reloadEmployeeTable = () => {
-        axios.get('/api/employees').then(
-            response => {
-                setEmployees(response.data);
-            }
-        );
+        fetch(`/api/employees`, {
+            method: 'GET',
+            accept: "Application/JSON"
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                else {
+                    throw new Error("Unable to fetch employee list.")
+                }
+            })
+            .then(updatedEmployees => setEmployees(updatedEmployees))
+            .catch(error => console.log(error));
     };
 
     // Populate the table

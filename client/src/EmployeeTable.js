@@ -11,7 +11,9 @@ function EmployeeTable(props) {
     }
 
     // PUT all modified employees
-    const handleSubmitButton = () => {
+    const handleSubmitButton = event => {
+        event.preventDefault();
+
         let requests = [];
 
         for(let id in modifiedEmployees) {
